@@ -14,6 +14,7 @@ import LeftSightNav from "../LeftSideNav/LeftSideNav";
 function NavBar() {
 	const { user, userSignOut } = useContext(AuthContext);
 	const [open, setOpen] = useState(false);
+	const [userInfoOpen, setUserInfoOpen] = useState(false);
 	const [modalShow, setModalShow] = useState(true);
 	const signOut = () => {
 		userSignOut();
@@ -28,6 +29,7 @@ function NavBar() {
 				<Container className="position-relative">
 					{open ? (
 						<div
+							onClick={() => setUserInfoOpen(!userInfoOpen)}
 							className="   position-absolute bg-info p-2 "
 							style={{
 								top: "50px",
@@ -48,7 +50,6 @@ function NavBar() {
 								</div>
 							) : (
 								<Link
-									to="/login"
 									onClick={() => setModalShow(true)}
 									className="d-block my-1 text-black ">
 									Login

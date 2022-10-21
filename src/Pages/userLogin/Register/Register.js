@@ -4,18 +4,16 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../UserContext/UserContexet";
 const Register = () => {
 	const [open, setOpen] = useState(true);
-	const {
-		signInGoogle,
-		userCreateEmailAndPass,
-		setUserName,
-		updateUserProfile,
-	} = useContext(AuthContext);
+	const navigate = useNavigate();
+	const { signInGoogle, userCreateEmailAndPass, updateUserProfile } =
+		useContext(AuthContext);
 	const handleSignInGoogle = () => {
 		signInGoogle();
+		navigate("/");
 	};
 	const handleUserCreateEmailAndPass = e => {
 		e.preventDefault();
@@ -23,12 +21,13 @@ const Register = () => {
 		const name = form.name.value;
 		const email = form.email.value;
 		const password = form.password.value;
+		console.log(name, email, password);
 		userCreateEmailAndPass(email, password)
 			.then(result => {
 				const user = result.user;
 				console.log(user);
-				updateUserProfile();
-				setUserName(name);
+				updateUserProfile(name);
+				navigate("/");
 			})
 			.catch(error => {
 				console.error("error: ", error);

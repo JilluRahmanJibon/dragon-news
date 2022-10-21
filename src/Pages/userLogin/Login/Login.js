@@ -7,21 +7,44 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../UserContext/UserContexet";
 const Login = () => {
-	const { signInGoogle } = useContext(AuthContext);
+	const { signInGoogle, logInWithEmailAndPass } = useContext(AuthContext);
 	const handleSignInGoogle = () => {
 		signInGoogle();
 	};
+	const handleLogin = e => {
+		const form = e.target;
+		const email = form.email.value;
+		const password = form.password.value;
+		logInWithEmailAndPass(email, password)
+			.then(result => {
+				const user = result.user;
+				console.log(user);
+			})
+			.catch(error => {
+				console.error("Error: ", error);
+			});
+	};
 	return (
 		<div className="my-5 mx-3">
-			<Form>
+			<Form onSubmit={handleLogin}>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Email </Form.Label>
-					<Form.Control required type="email" placeholder="Enter email" />
+					<Form.Control
+						required
+						name="email"
+						type="email"
+						placeholder="Enter email"
+					/>
 				</Form.Group>
 
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label>Password</Form.Label>
-					<Form.Control required type="password" placeholder="Password" />
+					<Form.Control
+						name="password"
+						required
+						type="password"
+						placeholder="Password"
+					/>
 				</Form.Group>
 
 				<div className="text-center">
