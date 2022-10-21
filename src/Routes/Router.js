@@ -6,6 +6,7 @@ import News from "../Pages/News/News/News";
 import PrivateRouter from "./PrivateRouter";
 import Login from "../Pages/userLogin/Login/Login";
 import Register from "../Pages/userLogin/Register/Register";
+import Profile from "../Pages/Others/Profile/Profile";
 export const router = createBrowserRouter([
 	{
 		path: "/",
@@ -45,6 +46,14 @@ export const router = createBrowserRouter([
 			},
 			{ path: "/login", element: <Login /> },
 			{ path: "/register", element: <Register /> },
+			{
+				path: "/profile",
+				element: (
+					<PrivateRouter>
+						<Profile />
+					</PrivateRouter>
+				),
+			},
 		],
 	},
 ]);

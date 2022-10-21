@@ -52,16 +52,16 @@ const NewsSummaryCard = ({ news }) => {
 					<Card.Img variant="top" src={image_url} />
 					<Card.Text>
 						{details.length > 250 ? (
-							<p>
+							<>
 								{details.slice(0, 250)}...
 								<Link
 									style={{ textDecoration: "none", color: "red" }}
 									to={`/news/${_id}`}>
 									Read more <FaArrowRight />
 								</Link>
-							</p>
+							</>
 						) : (
-							<p>{details}</p>
+							<>{details}</>
 						)}
 					</Card.Text>
 				</Card.Body>

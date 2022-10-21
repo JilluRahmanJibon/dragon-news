@@ -7,15 +7,18 @@ import { ButtonGroup } from "react-bootstrap";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 const Modals = props => {
-	const [user, setUser] = useState(true);
-	const [open, setOpen] = useState(true);
 	const {
 		logInWithEmailAndPass,
 		userCreateEmailAndPass,
 		updateUserProfile,
 		signInGoogle,
+		userEmailVarify,
 	} = useContext(AuthContext);
+	const [user, setUser] = useState(true);
+	const [open, setOpen] = useState(true);
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 	const handleLogin = e => {
 		e.preventDefault();
@@ -24,35 +27,62 @@ const Modals = props => {
 		const password = form.password.value;
 		logInWithEmailAndPass(email, password)
 			.then(result => {
+				form.reset();
+				setError("");
 				const user = result.user;
-				console.log(user);
-				navigate("/");
+				if (user.emailVerified) {
+					navigate("/");
+				} else {
+					toast.error("please check your email and varify now !!!", {
+						position: "top-center",
+						duration: 10000,
+					});
+				}
 			})
 			.catch(error => {
 				console.error("Error: ", error);
+				setError(error.message);
+			});
+	};
+	const emailVarification = () => {
+		userEmailVarify()
+			.then(() => {
+				setError("");
+			})
+			.catch(e => {
+				console.error(e);
+				setError(error.message);
 			});
 	};
 	const handleRegister = e => {
 		e.preventDefault();
 		const form = e.target;
 		const name = form.name.value;
+		const photoURL = form.photoURL.value;
 		const email = form.email.value;
 		const password = form.password.value;
-		console.log(name, email, password);
 		userCreateEmailAndPass(email, password)
 			.then(result => {
 				const user = result.user;
-				console.log(user);
-				updateUserProfile(name);
+				form.reset();
+				updateUserProfile(name, photoURL);
+				setError("");
 				navigate("/");
+				emailVarification();
+				toast.success("please check your email and varify now !!!", {
+					position: "top-center",
+					duration: 10000,
+				});
 			})
 			.catch(error => {
 				console.error("error: ", error);
+				setError(error.message);
 			});
 	};
 	const handleSignInGoogle = () => {
 		signInGoogle();
 	};
+
 	return (
 		<div>
 			<Modal
@@ -60,6 +90,9 @@ const Modals = props => {
 				size="lg"
 				aria-labelledby="contained-modal-title-vcenter"
 				centered>
+				<Form.Text className="text-danger text-center fw-bold">
+					{error}
+				</Form.Text>
 				<Modal.Header closeButton>
 					{user ? (
 						<Modal.Title id="contained-modal-title-vcenter">
@@ -111,6 +144,15 @@ const Modals = props => {
 									placeholder="Enter name"
 								/>
 							</Form.Group>
+							<Form.Group className="mb-3" controlId="formBasicText">
+								<Form.Label>Photo URL </Form.Label>
+								<Form.Control
+									name="photoUrl"
+									required
+									type="text"
+									placeholder="Photo URL"
+								/>
+							</Form.Group>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
 								<Form.Label>Email </Form.Label>
 								<Form.Control
@@ -134,7 +176,7 @@ const Modals = props => {
 								<Form.Check
 									onClick={() => setOpen(!open)}
 									type="checkbox"
-									label="Check me out"
+									label="Accept our Tearm & Conditions"
 								/>
 							</Form.Group>
 

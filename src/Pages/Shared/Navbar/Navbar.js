@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import toast from "react-hot-toast";
 import { FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../UserContext/UserContexet";
@@ -18,6 +19,10 @@ function NavBar() {
 	const [modalShow, setModalShow] = useState(true);
 	const signOut = () => {
 		userSignOut();
+		toast.success("log out success", {
+			duration: 2000,
+			position: "top-center",
+		});
 	};
 
 	return (
@@ -87,9 +92,10 @@ function NavBar() {
 								<LeftSightNav />
 							</div>
 						</Nav>
-						<NavLink title="Profile" onClick={() => setOpen(!open)}>
+						<Link title="Profile" to="/profile">
 							{user?.photoURL ? (
 								<img
+									onClick={() => setOpen(!open)}
 									style={{
 										width: "50px",
 										border: "2px solid red",
@@ -100,9 +106,12 @@ function NavBar() {
 									alt=""
 								/>
 							) : (
-								<FaUserAlt style={{ height: "25px", width: "25px" }} />
+								<FaUserAlt
+									onClick={() => setOpen(!open)}
+									style={{ height: "25px", width: "25px" }}
+								/>
 							)}
-						</NavLink>
+						</Link>
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>
