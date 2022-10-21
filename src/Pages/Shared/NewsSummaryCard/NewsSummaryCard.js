@@ -1,6 +1,12 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import { FaEye, FaRegBookmark, FaShareAlt, FaStar } from "react-icons/fa";
+import {
+	FaArrowRight,
+	FaEye,
+	FaRegBookmark,
+	FaShareAlt,
+	FaStar,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const NewsSummaryCard = ({ news }) => {
@@ -48,7 +54,11 @@ const NewsSummaryCard = ({ news }) => {
 						{details.length > 250 ? (
 							<p>
 								{details.slice(0, 250)}...
-								<Link to={`/news/${_id}`}>Read more</Link>
+								<Link
+									style={{ textDecoration: "none", color: "red" }}
+									to={`/news/${_id}`}>
+									Read more <FaArrowRight />
+								</Link>
 							</p>
 						) : (
 							<p>{details}</p>

@@ -18,6 +18,7 @@ const LeftSightNav = () => {
 			{categories.map(category => (
 				<div key={category.id}>
 					<NavLink
+						style={{ textDecoration: "none" }}
 						className={({ isActive }) =>
 							isActive ? "text-black" : "my-1 d-block"
 						}

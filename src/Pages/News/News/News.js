@@ -1,13 +1,18 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import { FaRegBookmark, FaEye, FaShareAlt, FaStar } from "react-icons/fa";
+import {
+	FaRegBookmark,
+	FaEye,
+	FaShareAlt,
+	FaStar,
+	FaArrowLeft,
+} from "react-icons/fa";
 
 const News = () => {
 	const news = useLoaderData();
 	const { image_url, title, total_view, category_id, details, author, rating } =
 		news;
-	console.log(news);
 
 	return (
 		<div className="my-3">
@@ -50,6 +55,13 @@ const News = () => {
 					<Card.Title className="text-center py-1">{title}</Card.Title>
 
 					<Card.Text>{details}</Card.Text>
+					<div>
+						<Link
+							style={{ textDecoration: "none" }}
+							to={`/category/${category_id}`}>
+							Read all news in this category... <FaArrowLeft />
+						</Link>
+					</div>
 				</Card.Body>
 				<Card.Footer className="d-flex gap-1 justify-content-between align-items-center">
 					<div className="d-flex gap-1 align-items-center">
